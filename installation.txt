@@ -1,0 +1,101 @@
+Installation Guide
+
+##########.  Installation  ###########
+
+
+
+-- virtualenv venv
+
+-- Copy code in the folder venv
+
+-- cd vent
+
+-- source ./bin.activate
+
+-- pip install Flask-HTTPAuth
+
+--- The debugger is on By-Default 
+Can be set False in the last line of api2.py code
+
+Set app.run(debug=True, port = port) to app.run(debug=False, port = port)
+
+
+
+Set this environment variable in the environment or change the code accordingly
+
+#Note - PostGreSQL is Must in the system   or download from here - https://www.postgresql.org/
+
+
+POSTGRES_URL="127.0.0.1:5432"
+POSTGRES_USER="postgres"
+POSTGRES_PW="pgdbpass"
+POSTGRES_DB="restCert"
+
+
+
+Curl Testing Guidelines
+
+
+-----For creating customers - or retrieving token if typed again
+
+curl -i -X POST -H "Content-Type: application/json" -d '{"name": "kev", "password":"kev", "email":"kev@123.com"}' http://localhost:5000/api/customer
+
+-----Deleting the customer - Authorization required  -- Will Delete all the certificate to
+
+with name password
+curl -u 'name:password' -i -X DELETE http://localhost:5000/api/deleteme
+
+with token
+curl -u token:unused -i -X DELETE http://localhost:5000/api/deleteme
+
+
+---- Creating Certificate - Authorization required
+
+with name password
+curl -u 'name:password' -i -X POST -H "Content-Type: application/json" -d '{"active":"True"}' http://localhost:5000/api/cert
+
+with token
+curl -u token:unused -i -X POST -H "Content-Type: application/json" -d '{"active":"True"}' http://localhost:5000/api/cert
+
+
+-----  Get All Active Certificate -- Authorization required
+
+with name password
+curl -u 'name:password' -i -X GET http://localhost:5000/api/getcert
+
+with token
+curl -u token:unused -i -X GET http://localhost:5000/api/getcert
+
+
+----- Activate/Deactivate certificate -- Authorization required
+
+with name password
+curl -u 'name:password' -i -X POST -H "Content-Type: application/json" -d '{"active":"False","certID":"1"}' http://localhost:5000/api/changeCert
+
+with token
+curl -u token:unused  -i -X POST -H "Content-Type: application/json" -d '{"active":"False","certID":"1"}' http://localhost:5000/api/changeCert
+
+
+
+
+
+----------####### Extra Commands ( FOR TESTING ONLY ) ####-------------
+
+
+-------- Get all customers - No Authorization Required 
+
+curl  -i -X GET http://localhost:5000/api/getusers
+
+-------- Get all certificates Regardless of Users - No Authorization Required 
+
+curl  -i -X GET http://localhost:5000/api/getalluserscert
+
+
+
+------- Get all certificate from Authenticated User - Authorization required
+
+with name password
+curl -u 'name:password' -i -X GET http://localhost:5000/api/getall
+
+with token
+curl -u token:unused -i -X GET http://localhost:5000/api/getall
